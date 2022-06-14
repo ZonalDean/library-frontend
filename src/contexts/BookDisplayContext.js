@@ -17,7 +17,11 @@ function BookDisplayContextProvider ({ children }) {
         }
 
         fetchDisplayBooks();
-    });
+    }, []);
+
+
+
+
 
     return (
         <BookDisplayContext.Provider>

@@ -1,5 +1,5 @@
 import { Modal } from "bootstrap";
-import { useRef, useEffect, useState, useContext } from "react";
+import { useRef, useState, useContext } from "react";
 import { UserAuthContext } from "../../../contexts/UserAuthContext";
 
 function UserLoginModal({ open, onClose }) {
@@ -36,13 +36,13 @@ function UserLoginModal({ open, onClose }) {
     return (
         <div>
 
-            <buton
+            <button
                 className="btn btn-secondary rounded-md h-12 fw-bold"
                 type="button"
                 onClick={handleClickModal}
             >
                 Register
-            </buton>
+            </button>
 
             <div
                 className="modal fade"

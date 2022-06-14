@@ -1,7 +1,7 @@
 import { Modal } from "bootstrap"
 import { useRef, useEffect, useState } from "react"
 
-function BookModal({ open, onClose }) {
+function BookModal({ open, onClose, props }) {
     const modalEl = useRef();
     const [modal, setModal] = useState(null);
 
@@ -17,30 +17,30 @@ function BookModal({ open, onClose }) {
     }, [open]);
 
     return (
-        <div
-            className="modal fade"
-            id="modal-book"
-            tabIndex="-1"
-            ref={modalEl}
-            onClick={onClose}
-        >
+        // <div
+        //     className="modal fade"
+        //     id="modal-book"
+        //     tabIndex="-1"
+        //     ref={modalEl}
+        //     onClick={onClose}
+        // >
             <div className="modal-dialog modal-lg modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-body">
                         <div className="row">
                             <div className="col-4">
-                                <div style={{ backgroundImage: "url(https://prodimage.images-bn.com/pimages/9780425266540_p0_v6_s550x406.jpg)", height: "50vh", backgroundSize: 'contain', backgroundRepeat: "no-repeat", backgroundPosition: "center center" }}>
+                                <div style={{ backgroundImage: `url(${props.coverPhoto})`, height: "50vh", backgroundSize: 'contain', backgroundRepeat: "no-repeat", backgroundPosition: "center center" }}>
                                 </div>
                             </div>
                             <div className="col-8">
                                 <h1 className="text-start">
-                                    Dune
+                                    {props.name}
                                 </h1>
                                 <h6 className="text-start">
-                                    By: Frank Herbery
+                                    By: {props.authorName}
                                 </h6>
                                 <p className="text-start">
-                                    lorem
+                                    {props.description}
                                 </p>
 
                                 <div className="d-flex">
@@ -66,7 +66,7 @@ function BookModal({ open, onClose }) {
                 </div>
             </div>
 
-        </div>
+        // </div>
     )
 }
 

@@ -6,7 +6,8 @@ function HomePage() {
     return (
         <>
             <Header />
-            <BookDisplay />
+            <BookDisplay name="Sci-Fi"/>
+            <BookDisplay name="Drama"/>
             
         </>
     )

@@ -15,9 +15,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserAuthContextProvider>
-        <BookDisplContextProvider>
+        {/* <BookDisplContextProvider> */}
           <App />
-        </BookDisplContextProvider>
+        {/* </BookDisplContextProvider> */}
       </UserAuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>

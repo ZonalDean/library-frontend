@@ -1,17 +1,54 @@
 import BookCard from "./BookCard";
 import { useRef, useEffect, useState } from "react"
 import BookModal from "./BookModal";
+import { getBooksDisplay } from "../../api/books";
+import { Modal } from "bootstrap";
 
 
-function BookDisplay() {
 
-    const [open, setOpen] = useState(false);
+function BookDisplay(props, onClose) {
+
+    // const [open, setOpen] = useState(false);
+    const [book, setBook] = useState();
+
+    const modalEl = useRef();
+    const [modal, setModal] = useState();
+    const [modalData, setModalData] = useState(null);
+
+    const handleClickModal = () => {
+        const modalObj = new Modal(modalEl.current);
+        setModal(modalObj);
+        modalObj.show();
+    };
+
+    const closeModal = () => {
+        modal.hide();
+    };
+
+    useEffect(() => {
+
+    })
+
+    const tag = props.name
+
+    useEffect(() => {
+
+        const fetchDisplayBooks = async () => {
+            try {
+                const res = await getBooksDisplay(tag)
+                setBook(res.data.foundBooks)
+            } catch (err) {
+                console.log('error fetchBooks')
+            }
+        }
+        fetchDisplayBooks();
+    }, []);
 
     return (
-        <div className="w-100 m-3 p-2 bg-warning enable-rounded enable-shadow rounded">
+        <div className=" m-3 p-2 bg-warning enable-rounded enable-shadow rounded">
 
             <h2 className="text-start">
-                Random Genre
+                {tag}
             </h2>
             <div className="d-flex justify-content-start">
                 <a className="text-start " href="#">
@@ -20,31 +57,44 @@ function BookDisplay() {
             </div>
 
             <div className="d-flex justify-content-center bookdisplay">
-                <div 
-                className="item mx-4 mb-3 card shadow" 
-                onClick={() => setOpen(true)}>
-                    <BookCard />
-                </div>
-                <div className="item mx-4 mb-3 card shadow">
-                    <BookCard />
-                </div>
-                <div className="item mx-4 mb-3 card shadow">
-                    <BookCard />
-                </div>
-                <div className="item mx-4 mb-3 card shadow">
-                    <BookCard />
-                </div>
-                <div className="item mx-4 mb-3 card shadow">
-                    <BookCard />
-                </div>
-                <div className="item mx-4 mb-3 card shadow">
-                    <BookCard />
-                </div>
-                <div className="item mx-4 mb-3 card shadow">
-                    <BookCard />
-                </div>
-            <BookModal open={open} onClose={() => setOpen(false)}/>
+                {/* Below is to prevent REACT from trying to map before it has fetched book */}
+                {book ? (book.map(el => (
+                    <div key={el.id} onClick={() => {
+                        setModalData(el);
+
+                            // console.log(el)
+                        
+                        console.log(modalData)
+                        handleClickModal();
+                    }}>
+                        <BookCard coverPhoto={el.coverPhoto}  />
+                    </div>
+                ))) : (
+                    <div></div>
+                )}
             </div>
+
+            {/* {modalData ? (
+                <div
+                    className="modal fade"
+                    id="modal-book"
+                    tabIndex="-1"
+                    ref={modalEl}
+                    onClick={onClose}
+                >
+                    <BookModal
+                        closeModal={closeModal}
+                        coverPhoto={modalData.coverPhoto}
+                        name={modalData.name}
+                        authorName={modalData.authorName}
+                        description={modalData.description}
+                    />
+                </div>
+            ) : (
+                <div></div>
+            )} */}
+
+
 
 
         </div>
