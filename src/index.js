@@ -8,13 +8,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import UserAuthContextProvider from './contexts/UserAuthContext';
+import BookDisplContextProvider from './contexts/BookDisplayContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserAuthContextProvider>
-        <App />
+        <BookDisplContextProvider>
+          <App />
+        </BookDisplContextProvider>
       </UserAuthContextProvider>
     </BrowserRouter>
   </React.StrictMode>

@@ -19,15 +19,6 @@ function BookDisplay() {
                 </a>
             </div>
 
-            {/* <div className="d-flex justify-content-center bookdisplay">
-                <BookCard className="item"/>
-                <BookCard className="item"/>
-                <BookCard className="item"/>
-                <BookCard className="item"/>
-                <BookCard className="item"/>
-                <BookCard className="item"/>
-                <BookCard className="item"/>
-            </div> */}
             <div className="d-flex justify-content-center bookdisplay">
                 <div 
                 className="item mx-4 mb-3 card shadow" 
