@@ -1,21 +1,38 @@
-import BookModal from "./BookModal"
+import { useEffect, useState } from "react"
 
-function BookCard(props) {
+function BookCard({coverPhoto, BookStocks}) {
+    
+    const [hasStock, setHasStock] = useState()
+    useEffect(() => {
+        
+        const checkStatus = () => {
+            // setHasStock(BookStocks.length)
+            setHasStock(BookStocks.length)
+            // console.log(hasStock)
+        }
+        
+        checkStatus()
+    }, [])
     return (
         // <div className="">
 
-            <div className="item mx-4 mb-3 card shadow">
-                <div className="container " style={{ height: "30vh" }} >
-                    <div className="h-20vh">
-                        <div
-                            className="mt-2"
-                            style={{ backgroundImage: `url(${props.coverPhoto})`, height: "20vh", backgroundSize: 'contain', backgroundRepeat: "no-repeat", backgroundPosition: "center center" }} />
-                    </div>
-
-                    <button className="btn btn-primary text-light my-3" >Borrow Now</button>
-
+        <div className="mx-4 mb-3 card shadow">
+            <div className="container" style={{ height: "30vh", width: "10vw" }} >
+                <div className="d-flex align-items-centre flex-column">
+                    <div
+                        className="mt-2"
+                        style={{ backgroundImage: `url(${coverPhoto})`, height: "20vh", backgroundSize: 'contain', backgroundRepeat: "no-repeat", backgroundPosition: "center center" }} />
+                    { hasStock ? (
+                        <button className="btn btn-primary my-3" >Available</button>
+                    ) : (
+                        <button className="btn btn-secondary my-3" >Unavailable</button>
+                    )}
+                    
                 </div>
+
+
             </div>
+        </div>
 
 
         // </div>

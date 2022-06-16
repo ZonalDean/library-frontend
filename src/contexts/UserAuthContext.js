@@ -17,8 +17,9 @@ function UserAuthContextProvider({ children }) {
         const fetchMe = async () => {
             try {
                 const token = getUserAccessToken()
+                // console.log(token)
                 if (token) {
-                    const resMe = await axios.post('user/login');
+                    const resMe = await axios.get('user/me');
                     setUser(resMe.data.user)
                 }
             } catch (err) {
@@ -33,10 +34,10 @@ function UserAuthContextProvider({ children }) {
     const login = async (email, password) => {
         const res = await axios.post('/user/login', { email, password });
         setUserAccessToken(res.data.token);
-        console.log(res.data.token)
+        // console.log(res.data.token)
         const resMe = await axios.get('/user/me');
         setUser(resMe.data.user);
-        console.log(resMe.data.user)
+        // console.log(resMe.data.user)
     }
 
     const register = async (firstName, lastName, email, password, confirmPassword) => {

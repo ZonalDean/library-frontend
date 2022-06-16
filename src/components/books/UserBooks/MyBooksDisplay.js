@@ -1,24 +1,23 @@
-import BookCard from "./BookCard";
-import { useRef, useEffect, useState, useContext } from "react"
-import { getBooksDisplay, getBookById } from "../../api/books";
+import BookCard from "../BookCard";
+import { useRef, useEffect, useState } from "react"
+import { getBooksDisplay, getBookById } from "../../../api/books";
 import { Modal } from "bootstrap";
 import axios from "axios";
-import { UserAuthContext } from "../../contexts/UserAuthContext";
-import BorrowButton from "./UserBooks/BorrowButon";
 
 
 
-function BookDisplay(props, onClose) {
-
-    const { user } = useContext(UserAuthContext)
+function MyBooksDisplay(props, onClose) {
 
     const [books, setBooks] = useState();
+    // const [bookTags, setBookTags] = useState();
 
     const modalEl = useRef();
     const [modal, setModal] = useState(null);
+    const [modalTrigger, setModalTrigger] = useState(false)
 
     const [modalData, setModalData] = useState(null);
     const [modalTags, setModalTags] = useState(null);
+
 
 
     const handleClickModal = () => {
@@ -31,7 +30,7 @@ function BookDisplay(props, onClose) {
         modal.hide();
     };
 
-    // Manages Book Display
+
     const tag = props.name
 
     useEffect(() => {
@@ -47,18 +46,17 @@ function BookDisplay(props, onClose) {
         fetchDisplayBooks();
     }, []);
 
-    // Manages tags in Modal
     const handleFetchTags = async (modalData) => {
         try {
+            console.log(modalData.id)
             const res = await axios.get(`public/book/${modalData.id}`)
+            console.log(res.data.book.Tags)
             setModalTags(res.data.book.Tags)
         } catch (err) {
             console.log("fethtag error")
         }
     }
-
-    // console.log(modalData)
-
+    console.log(modalTags)
     return (
         <div className="m-3 p-2 bg-warning enable-rounded enable-shadow rounded">
 
@@ -74,12 +72,12 @@ function BookDisplay(props, onClose) {
             <div className="d-flex justify-content-center bookdisplay">
                 {/* Below is to prevent REACT from trying to map before it has fetched book */}
                 {books ? (books.map(book => (
-                    <div className="item" key={book.id} onClick={() => {
-                        handleClickModal();
+                    <div key={book.id} onClick={() => {
                         setModalData(book);
+                        handleClickModal();
                         handleFetchTags(book);
                     }}>
-                        <BookCard {...book}/>
+                        <BookCard coverPhoto={book.coverPhoto} />
                     </div>
                 ))) : (
                     <div></div>
@@ -92,7 +90,7 @@ function BookDisplay(props, onClose) {
                 id="modal-book"
                 tabIndex="-1"
                 ref={modalEl}
-                // onClick={onClose}
+                onClick={onClose}
             >
                 <div className="modal-dialog modal-lg modal-dialog-centered">
                     <div className="modal-content">
@@ -116,28 +114,32 @@ function BookDisplay(props, onClose) {
                                     {/* Needs return, literally no clue why */}
                                     {
                                         modalTags ? (
-                                            (modalTags.map(modalTag =>
-                                            (
-                                                <div key={modalTag.id} className="bg-warning rounded-pill my-2 me-2">
-                                                    <p className="m-2">{modalTag.name}</p>
-                                                </div>)
+                                            (modalTags.map(modalTag => 
+                                             (
+                                                    <div key={modalTag.id} className="bg-warning rounded-pill my-2 me-2">
+                                                        <p className="m-2">{modalTag.name}</p>
+                                                    </div>)
                                             ))
                                         ) : (
                                             <div></div>
                                         )
                                     }
-                                    <div>
-                                        <BorrowButton {...modalData}/>
-                                        {/* { isBorrowed ? (
-                                            <button className="btn w-100 btn-primary">
-                                                Borrow Now
-                                            </button>
-                                        ) : (
+                                    {/* <div className="d-flex">
+                                        <div className="bg-warning rounded-pill my-2 me-2">
+                                            <p className="m-2">Sci-Fi</p>
+                                        </div>
+                                        <div className="bg-warning rounded-pill my-2 me-2">
+                                            <p className="m-2">Politics</p>
+                                        </div>
+                                        <div className="bg-warning rounded-pill my-2 me-2">
+                                            <p className="m-2">Dune Series</p>
+                                        </div>
+                                    </div> */}
 
-                                            <button className="btn w-100 btn-secondary">
-                                                Book Already Borrowed
-                                            </button>
-                                        )} */}
+                                    <div className>
+                                        <button className="btn w-100 btn-primary">
+                                            Borrow Now
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -151,4 +153,4 @@ function BookDisplay(props, onClose) {
     )
 }
 
-export default BookDisplay
+export default MyBooksDisplay

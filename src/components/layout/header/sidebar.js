@@ -1,4 +1,10 @@
+import { Link } from "react-router-dom"
+
+
 function Sidebar() {
+
+    
+    
     return (
         <>
             <button
@@ -11,17 +17,18 @@ function Sidebar() {
                 <i className="fa-solid fa-bars"></i>
             </button>
 
-            <div className="offcanvas offcanvas-end" tabIndex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+            <div className="offcanvas offcanvas-end show" tabIndex="-1" id="sidebar" aria-labelledby="sidebarLabel">
                 <div className="offcanvas-header" >
-                    <div className="offcanvas-title">
+                    <h2 className="offcanvas-title">
                         test
-                    </div>
+                    </h2>
+                    <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
 
                 <div className="offcanvas-body">
-                    <div>
-                        test offcanvass
-                    </div>
+                    <Link to="/mybooks">
+                        My Books
+                    </Link>
                 </div>
             </div>
         </>
