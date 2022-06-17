@@ -3,13 +3,14 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import HomePage from './pages/HomePage'
-import MyBooks from './components/books/UserBooks/MyBooks'
 import { Navigate, Route, Routes } from 'react-router-dom';
+import MyBooks from './pages/MyBooks';
 
 import { UserAuthContext } from './contexts/UserAuthContext'
 import { useContext, useEffect } from 'react';
 import SplashPage from './pages/SplashPage';
-
+import ReturnBooks from './pages/ReturnBooks';
+import PickupBooks from './pages/PickupBooks';
 
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
       {user ? (
         <Route path="/" element={<HomePage />}>
           <Route path="" element={<SplashPage />} />
+          <Route path="myreturn" element={<ReturnBooks />} />
+          <Route path="mypickup" element={<PickupBooks />} />
           <Route path="mybooks" element={<MyBooks />} />
         </Route>
       ) : (

@@ -37,3 +37,34 @@ code {
 .item:hover {
   transform: scale(1.2) !important;
 }
+
+
+
+
+/* MYBOOKS */
+/* eases transitions for item */
+.mybookdisplay .mybook {
+  transition: transform 300ms ease 100ms;
+}
+.mybookdisplay {
+  transition: transform 300ms ease 100ms;
+}
+
+/* moves items to the left */
+.mybookdisplay:hover .mybook {
+  transform: translateX(-25%);
+}
+
+/* moves items to the right */
+.mybook:hover ~ .mybook {
+  transform: translateX(25%);
+}
+.mybookdisplay:hover ~ .mybookdisplay {
+  transform: translateY(10%);
+}
+
+/* brings up items on hover */
+.mybook:hover {
+  transform: scale(1.2) !important;
+}
+

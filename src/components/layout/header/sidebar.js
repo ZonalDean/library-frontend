@@ -26,9 +26,15 @@ function Sidebar() {
                 </div>
 
                 <div className="offcanvas-body">
-                    <Link to="/mybooks">
+                    <h3>
                         My Books
+                    </h3>
+                    <Link to={`myreturn`}>
+                        Books to Return
                     </Link>
+                    {/* <Link>
+                        Books to Return 
+                    </Link> */}
                 </div>
             </div>
         </>
