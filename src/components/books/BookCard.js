@@ -6,9 +6,8 @@ function BookCard({coverPhoto, BookStocks}) {
     useEffect(() => {
         
         const checkStatus = () => {
-            // setHasStock(BookStocks.length)
             setHasStock(BookStocks.length)
-            // console.log(hasStock)
+            console.log(BookStocks)
         }
         
         checkStatus()
@@ -25,13 +24,13 @@ function BookCard({coverPhoto, BookStocks}) {
                     { hasStock ? (
                         <button className="btn btn-primary my-3" >Available</button>
                     ) : (
-                        <button className="btn btn-secondary my-3" >Unavailable</button>
+                        <button className="btn btn-secondary my-3">Out of Stock</button>
                     )}
                     
                 </div>
 
-
             </div>
+            
         </div>
 
 

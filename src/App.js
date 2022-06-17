@@ -11,7 +11,7 @@ import { useContext, useEffect } from 'react';
 import SplashPage from './pages/SplashPage';
 import ReturnBooks from './pages/ReturnBooks';
 import PickupBooks from './pages/PickupBooks';
-
+import SearchBooks from './pages/SearchBook';
 
 function App() {
   const { user } = useContext(UserAuthContext)
@@ -30,6 +30,7 @@ function App() {
       ) : (
         <Route path="/" element={<HomePage />}>
           <Route path="" element={<SplashPage />} />
+          <Route path="booksearch/:search/:tag" element={<SearchBooks />} />
         </Route>
       )}
 

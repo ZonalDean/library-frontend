@@ -14,7 +14,7 @@ function ReturnBooks() {
             try {
                 const res = await axios.get(`user/mystock/OUT`)
                 const result = res.data.myStocks
-                // setReturnBooks(result)
+                setReturnBooks(result)
             } catch (err) {
                 console.log('fetchPickup error')
             }

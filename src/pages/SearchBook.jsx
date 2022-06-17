@@ -1,25 +1,51 @@
-import BookCard from "./BookCard";
-import { useRef, useEffect, useState, useContext } from "react"
-import { getBooksDisplay } from "../../api/books";
-import { Modal } from "bootstrap";
-import axios from "axios";
-import { UserAuthContext } from "../../contexts/UserAuthContext";
-import BorrowButton from "./UserBooks/BorrowButon";
-import { Link } from "react-router-dom";
+import axios from "axios"
+import { Modal } from "bootstrap"
+import { useEffect, useRef, useState } from "react"
+import { useLocation, useSearchParams } from "react-router-dom"
+import BookCard from "../components/books/BookCard"
+import BorrowButton from "../components/books/UserBooks/BorrowButon"
 
+function SearchBooks() {
 
-function BookDisplay(props, onClose) {
+    const [books, setBooks] = useState()
+    const [search, setSearch] = useState()
+    const [tag, setTag] = useState('all')
 
-    const { user } = useContext(UserAuthContext)
+    const location = useLocation()
 
-    const [books, setBooks] = useState();
+    // for getting params
+    useEffect(() => {
+        const path = location.pathname
+        const pathArr = path.split('/')
+        const rawTag = pathArr[3]
+        const splitTag = rawTag.split('%20')
+        const parsedTag = splitTag.join(' ')
+        setSearch(pathArr[2])
+        setTag(parsedTag)
+    })
 
+    // for getting all the books displayed
+    useEffect(() => {
+        const fetchBooks = async () => {
+            try {
+                // console.log(tag)
+                const res = await axios.get(`public/booksearch/${search}/${tag}`)
+                setBooks(res.data.foundBooks)
+            } catch (err) {
+                console.log('fetchBooks error')
+            }
+
+        }
+
+        fetchBooks()
+    }, [search, tag])
+
+    // handles modal
     const modalEl = useRef();
     const [modal, setModal] = useState(null);
 
     const [modalData, setModalData] = useState(null);
     const [modalTags, setModalTags] = useState(null);
-
 
     const handleClickModal = () => {
         const modalObj = new Modal(modalEl.current);
@@ -30,24 +56,6 @@ function BookDisplay(props, onClose) {
     const closeModal = () => {
         modal.hide();
     };
-
-    // Manages Book Display
-    const tag = props.name
-
-    useEffect(() => {
-
-        const fetchDisplayBooks = async () => {
-            try {
-                const resBooks = await getBooksDisplay(tag)
-                setBooks(resBooks.data.foundBooks)
-            } catch (err) {
-                console.log('error fetchBooks')
-            }
-        }
-        fetchDisplayBooks();
-    }, []);
-
-    // Manages tags in Modal
     const handleFetchTags = async (modalData) => {
         try {
             const res = await axios.get(`public/book/${modalData.id}`)
@@ -58,33 +66,25 @@ function BookDisplay(props, onClose) {
     }
 
     return (
-        <div className="m-3 p-2 bg-warning enable-rounded enable-shadow rounded">
+        <div className="d-flex justify-content-left flex-wrap mybookdisplay m-5">
+            {books ? (
+                books.map(book => (
+                    <div className="mybook"
+                        onClick={() => {
+                            handleClickModal();
+                            setModalData(book);
+                            handleFetchTags(book);
+                        }}
+                    >
 
-            <div className="d-flex ">
-                <h2 className="text-start">
-                    {tag}
-                </h2>
-                <Link to={`booksearch/undefined/${tag}/`}>
-                    <buton className="btn btn-primary mx-3 shadow"> See All</buton>
-                </Link>
-            </div>
-
-            <div className="d-flex justify-content-center bookdisplay">
-                {/* Below is to prevent REACT from trying to map before it has fetched book */}
-                {books ? (books.map(book => (
-                    <div className="item" key={book.id} onClick={() => {
-                        handleClickModal();
-                        setModalData(book);
-                        handleFetchTags(book);
-                    }}>
-                        <BookCard {...book} />
+                        <BookCard key={book.id} {...book} />
                     </div>
-                ))) : (
-                    <div></div>
-                )}
-            </div>
+                ))
+            ) : (
+                <div></div>
+            )
+            }
 
-            {/* work using optional chaning ie modalData?.name */}
             <div
                 className="modal fade"
                 id="modal-book"
@@ -132,11 +132,10 @@ function BookDisplay(props, onClose) {
                         </div>
                     </div>
                 </div>
-
             </div>
 
-        </div>
+        </div >
     )
 }
 
-export default BookDisplay
+export default SearchBooks

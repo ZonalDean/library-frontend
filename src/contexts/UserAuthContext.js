@@ -34,22 +34,22 @@ function UserAuthContextProvider({ children }) {
     const login = async (email, password) => {
         const res = await axios.post('/user/login', { email, password });
         setUserAccessToken(res.data.token);
-        // console.log(res.data.token)
         const resMe = await axios.get('/user/me');
         setUser(resMe.data.user);
-        // console.log(resMe.data.user)
     }
 
     const register = async (firstName, lastName, email, password, confirmPassword) => {
-        const res = await axios.post('/user/register', {firstName, lastName, email, password, confirmPassword});
-        // setUserAccessToken(res.data.token);
-        // const resMe = await axios.get('/user/me');
-        // setUser(resMe.data.user);
-      };
+        const res = await axios.post('/user/register', { firstName, lastName, email, password, confirmPassword });
+    };
+
+    const logout = () => {
+        removeUserAccessToken();
+        setUser(null);
+    };
 
 
     return (
-        <UserAuthContext.Provider value={{ register, user, login }}>
+        <UserAuthContext.Provider value={{ register, user, login, logout }}>
             {children}
         </UserAuthContext.Provider>
     );

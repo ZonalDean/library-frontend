@@ -1,18 +1,19 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+import { UserAuthContext } from "../../../contexts/UserAuthContext"
 
 function BorrowButton({ id }) {
 
+    const { user } = useContext(UserAuthContext)
     const [isBorrowed, setIsBorrowed] = useState(0)
 
-    const [trigger, setTrigger] = useState()
 
     useEffect(() => {
         const getBorrowedStatus = async () => {
             try {
                 const res = await axios.get(`user/isborrow/${id}`)
                 const checker = res.data.isBorrowed
-                console.log(id)
                 setIsBorrowed(checker.length)
             } catch (err) {
                 console.log('borrowStatus error')
@@ -44,12 +45,18 @@ function BorrowButton({ id }) {
                 <button className="btn w-100 btn-secondary">
                     You already have this book
                 </button>
-            ) : (
+            ) : user ? (
                 <form onSubmit={handleBorrow}>
                     <button type="submit" className="btn w-100 btn-primary" onSubmit={handleBorrow}>
                         Borrow Now
                     </button>
                 </form>
+            ) : (
+                <Link to={''} >
+                    <button className="btn w-100 btn-danger">
+                        You need to be logged in to Borrow
+                    </button>
+                </Link>
             )}
         </div>
     )
