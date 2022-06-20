@@ -6,7 +6,7 @@ import { UserAuthContext } from "../../../contexts/UserAuthContext";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-function Header() {
+function Header(props) {
     // const [open, setOpen] = useState(false)
     const { user } = useContext(UserAuthContext)
 
@@ -37,6 +37,7 @@ function Header() {
         }
     };
 
+
     return (
         <>
             <nav className="navbar bg-secondary">
@@ -45,42 +46,84 @@ function Header() {
                     <div className="col-11 d-flex">
                         <Link className="navbar-brand text-light fw-bold fs-1 mx-2" to="/" >BiblioTech</Link>
                         <div className="d-flex align-items-center">
+                            {props.roleStaff ? (
+                                <div className="d-flex">
+                                    <div className="text-light fw-light fs-1 mx-2">Staff</div>
+                                    <form onSubmit={handleSubmitSearch}>
+                                        <div className="mx-3 d-flex align-items-center shadow rounded-3 bg-light  py-2">
+                                            <Link to={`booksearch/${search}/${tag}/`}>
+                                                <button className="btn btn-primary mx-3 shadow" type="submit">
+                                                    <i className="fa-solid fa-magnifying-glass fs-4  "></i>
+                                                </button>
+                                            </Link>
 
-                            <form onSubmit={handleSubmitSearch}>
-                                <div className="mx-3 d-flex align-items-center shadow rounded-3 bg-light  py-2">
-                                    <Link to={`booksearch/${search}/${tag}/`}>
-                                        <button className="btn btn-primary mx-3 shadow" type="submit">
-                                            <i className="fa-solid fa-magnifying-glass fs-4  "></i>
-                                        </button>
-                                    </Link>
+                                            <div className="">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Search for books"
+                                                    value={search}
+                                                    onChange={e => setSearch(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="mx-3">
+                                                <select className="form-select"
+                                                    value={tag}
+                                                    onChange={e => setTag(e.target.value)}
+                                                >
+                                                    <option>All Tags</option>
+                                                    {tagOptions ? (
+                                                        tagOptions.map(tagOption => (
+                                                            <option key={tagOption.id} value={tagOption.name}>{tagOption.name}</option>
+                                                        ))
+                                                    ) : (
+                                                        <option>Error</option>
+                                                    )}
+                                                </select>
+                                            </div>
 
-                                    <div className="">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            placeholder="Search for books"
-                                            value={search}
-                                            onChange={e => setSearch(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="mx-3">
-                                        <select className="form-select"
-                                            value={tag}
-                                            onChange={e => setTag(e.target.value)}
-                                        >
-                                            <option>All Tags</option>
-                                            {tagOptions ? (
-                                                tagOptions.map(tagOption => (
-                                                    <option key={tagOption.id} value={tagOption.name}>{tagOption.name}</option>
-                                                ))
-                                            ) : (
-                                                <option>Error</option>
-                                            )}
-                                        </select>
-                                    </div>
-
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+
+                            ) : (
+                                <form onSubmit={handleSubmitSearch}>
+                                    <div className="mx-3 d-flex align-items-center shadow rounded-3 bg-light  py-2">
+                                        <Link to={`booksearch/${search}/${tag}/`}>
+                                            <button className="btn btn-primary mx-3 shadow" type="submit">
+                                                <i className="fa-solid fa-magnifying-glass fs-4  "></i>
+                                            </button>
+                                        </Link>
+
+                                        <div className="">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Search for books"
+                                                value={search}
+                                                onChange={e => setSearch(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="mx-3">
+                                            <select className="form-select"
+                                                value={tag}
+                                                onChange={e => setTag(e.target.value)}
+                                            >
+                                                <option>All Tags</option>
+                                                {tagOptions ? (
+                                                    tagOptions.map(tagOption => (
+                                                        <option key={tagOption.id} value={tagOption.name}>{tagOption.name}</option>
+                                                    ))
+                                                ) : (
+                                                    <option>Error</option>
+                                                )}
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            )}
+
 
                         </div>
                     </div>

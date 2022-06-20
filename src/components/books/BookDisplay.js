@@ -4,8 +4,8 @@ import { getBooksDisplay } from "../../api/books";
 import { Modal } from "bootstrap";
 import axios from "axios";
 import { UserAuthContext } from "../../contexts/UserAuthContext";
-import BorrowButton from "./UserBooks/BorrowButon";
-import { Link } from "react-router-dom";
+import BorrowButton from "./UserBooks/BorrowButton";
+import { Link, Redirect } from "react-router-dom";
 
 
 function BookDisplay(props, onClose) {
@@ -64,8 +64,8 @@ function BookDisplay(props, onClose) {
                 <h2 className="text-start">
                     {tag}
                 </h2>
-                <Link to={`booksearch/undefined/${tag}/`}>
-                    <buton className="btn btn-primary mx-3 shadow"> See All</buton>
+                <Link to={`booksearch/undefined/${tag}/`} replace>
+                    <button className="btn btn-primary mx-3 shadow"> See All</button>
                 </Link>
             </div>
 

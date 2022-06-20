@@ -7,32 +7,68 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import MyBooks from './pages/MyBooks';
 
 import { UserAuthContext } from './contexts/UserAuthContext'
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import SplashPage from './pages/SplashPage';
 import ReturnBooks from './pages/ReturnBooks';
 import PickupBooks from './pages/PickupBooks';
 import SearchBooks from './pages/SearchBook';
+import StaffHome from './pages/staff/StaffHome';
+import StaffLogin from './components/staff/auth/StaffLogin';
+import StaffSearchBooks from './pages/staff/StaffSearchBooks';
+import Update from './pages/staff/Update';
 
 function App() {
   const { user } = useContext(UserAuthContext)
+  const [roleUser, setRoleUser] = useState(false)
+  const [roleStaff, setRoleStaff] = useState(false)
   useEffect(() => {
-    // console.log(user)
+    if (user) {
+      if (user.isStaff) {
+        setRoleStaff(true)
+      } if (user.isUser) {
+        setRoleUser(true)
+      }
+
+    }
   }, [user])
+
+  // console.log(roleUser)
+  // console.log(roleStaff)
+  // console.log(user)
   return (
     <Routes>
-      {user ? (
-        <Route path="/" element={<HomePage />}>
-          <Route path="" element={<SplashPage />} />
-          <Route path="myreturn" element={<ReturnBooks />} />
-          <Route path="mypickup" element={<PickupBooks />} />
-          <Route path="mybooks" element={<MyBooks />} />
-        </Route>
-      ) : (
-        <Route path="/" element={<HomePage />}>
-          <Route path="" element={<SplashPage />} />
-          <Route path="booksearch/:search/:tag" element={<SearchBooks />} />
-        </Route>
-      )}
+      {roleUser ? (
+        <>
+          <Route path="/" element={<HomePage />}>
+            <Route path="" element={<SplashPage />} />
+            <Route path="myreturn" element={<ReturnBooks />} />
+            <Route path="mypickup" element={<PickupBooks />} />
+            <Route path="mybooks" element={<MyBooks />} />
+            <Route path="booksearch/:search/:tag" element={<SearchBooks />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" />} />
+        </>
+      )
+        : roleStaff ? (
+          <>
+            <Route path="/" element={<HomePage roleStaff={roleStaff}/>}>
+              <Route path="" element={<StaffHome />} />
+              <Route path="book/update/:id" element={<Update />} />
+              <Route path="booksearch/:search/:tag" element={<StaffSearchBooks />} />
+            </Route>
+            <Route path="*" element={<Navigate to="/" />} />
+          </>
+        ) :
+          (
+            <>
+              <Route path="/" element={<HomePage />}>
+                <Route path="" element={<SplashPage />} />
+                <Route path="stafflogin" element={<StaffLogin />} />
+                <Route path="booksearch/:search/:tag" element={<SearchBooks />} />
+              </Route>
+              <Route path="*" element={<Navigate to="/" />} />
+            </>
+          )}
 
 
     </Routes>

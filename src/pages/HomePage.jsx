@@ -3,11 +3,11 @@ import BookDisplay from "../components/books/BookDisplay";
 import Header from "../components/layout/header/Header";
 
 
-function HomePage() {
+function HomePage(props) {
     
     return (
         <>
-            <Header />
+            <Header roleStaff={props.roleStaff} />
             <Outlet />
         </>
     )

@@ -7,14 +7,18 @@ function BorrowButton({ id }) {
 
     const { user } = useContext(UserAuthContext)
     const [isBorrowed, setIsBorrowed] = useState(0)
+    // console.log(user)
 
 
     useEffect(() => {
         const getBorrowedStatus = async () => {
             try {
-                const res = await axios.get(`user/isborrow/${id}`)
-                const checker = res.data.isBorrowed
-                setIsBorrowed(checker.length)
+                if (user) {
+
+                    const res = await axios.get(`user/isborrow/${id}`)
+                    const checker = res.data.isBorrowed
+                    setIsBorrowed(checker.length)
+                }
             } catch (err) {
                 console.log('borrowStatus error')
             }
@@ -29,7 +33,7 @@ function BorrowButton({ id }) {
         try {
             e.preventDefault()
             const res = await axios.post(`user/reservebook/${id}`)
-            console.log(res.data)
+            // console.log(res.data)
             setIsBorrowed(1)
             // console.log('borrowdone')
         } catch (err) {

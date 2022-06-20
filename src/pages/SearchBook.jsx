@@ -3,7 +3,7 @@ import { Modal } from "bootstrap"
 import { useEffect, useRef, useState } from "react"
 import { useLocation, useSearchParams } from "react-router-dom"
 import BookCard from "../components/books/BookCard"
-import BorrowButton from "../components/books/UserBooks/BorrowButon"
+import BorrowButton from "../components/books/UserBooks/BorrowButton"
 
 function SearchBooks() {
 

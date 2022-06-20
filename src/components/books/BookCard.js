@@ -7,7 +7,7 @@ function BookCard({coverPhoto, BookStocks}) {
         
         const checkStatus = () => {
             setHasStock(BookStocks.length)
-            console.log(BookStocks)
+            // console.log(BookStocks)
         }
         
         checkStatus()
