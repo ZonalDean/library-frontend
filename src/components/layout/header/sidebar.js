@@ -1,11 +1,22 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom"
 import { UserAuthContext } from "../../../contexts/UserAuthContext"
 
 function Sidebar() {
 
-    const { logout } = useContext(UserAuthContext);
+    const { logout, user } = useContext(UserAuthContext);
+    const [roleUser, setRoleUser] = useState(false)
+    const [roleStaff, setRoleStaff] = useState(false)
+    useEffect(() => {
+        if (user) {
+            if (user.isStaff) {
+                setRoleStaff(true)
+            } if (user.isUser) {
+                setRoleUser(true)
+            }
 
+        }
+    }, [user])
     return (
         <>
             <button
@@ -26,30 +37,56 @@ function Sidebar() {
 
                 <div className="offcanvas-header" >
                     <h2 className="offcanvas-title">
-                        test
+                        BiblioTech
                     </h2>
                     <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-
-                <div className="offcanvas-body">
-                    <h3>
-                        My Books
-                    </h3>
-                    <div className="d-flex flex-column">
-                        <Link to={'mypickup'}>
-                            Books to Return
-                        </Link>
-                        <Link to={`myreturn`}>
-                            Books to Pickup
-                        </Link>
-                    <button 
-                    className="btn btn-warning"
-                    onClick={logout}
-                    >
-                        Logout
-                    </button>
+                {roleUser ? (
+                    <div className="offcanvas-body">
+                        <h3>
+                            My Books
+                        </h3>
+                        <div className="d-flex flex-column">
+                            <Link to={'mypickup'}>
+                                Books to Return
+                            </Link>
+                            <Link to={`myreturn`}>
+                                Books to Pickup
+                            </Link>
+                            <button
+                                className="btn btn-warning"
+                                onClick={logout}
+                            >
+                                Logout
+                            </button>
+                        </div>
                     </div>
-                </div>
+                ) : roleStaff ? (
+                    <div className="offcanvas-body">
+                        <h3>
+                            My Books
+                        </h3>
+                        <div className="d-flex flex-column">
+                            <Link to={`newbook`}>
+                                Create a new Book
+                            </Link>
+                            <button
+                                className="btn btn-warning"
+                                onClick={logout}
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <div></div>
+                )
+
+                }
+
+
+
+
             </div>
         </>
     )

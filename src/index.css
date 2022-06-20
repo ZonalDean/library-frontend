@@ -59,9 +59,9 @@ code {
 .mybook:hover ~ .mybook {
   transform: translateX(25%);
 }
-.mybookdisplay:hover ~ .mybookdisplay {
+/* .mybookdisplay:hover ~ .mybookdisplay {
   transform: translateY(10%);
-}
+} */
 
 /* brings up items on hover */
 .mybook:hover {

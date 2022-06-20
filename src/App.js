@@ -16,6 +16,7 @@ import StaffHome from './pages/staff/StaffHome';
 import StaffLogin from './components/staff/auth/StaffLogin';
 import StaffSearchBooks from './pages/staff/StaffSearchBooks';
 import Update from './pages/staff/Update';
+import NewBook from './pages/staff/NewBook';
 
 function App() {
   const { user } = useContext(UserAuthContext)
@@ -55,6 +56,7 @@ function App() {
               <Route path="" element={<StaffHome />} />
               <Route path="book/update/:id" element={<Update />} />
               <Route path="booksearch/:search/:tag" element={<StaffSearchBooks />} />
+              <Route path="newbook" element={<NewBook />} />
             </Route>
             <Route path="*" element={<Navigate to="/" />} />
           </>

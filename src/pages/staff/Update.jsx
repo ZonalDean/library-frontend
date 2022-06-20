@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect, useRef, useState } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 
 function Update() {
     const location = useLocation()
@@ -15,8 +15,6 @@ function Update() {
     const [tags, setTags] = useState()
     const [coverPhoto, setCoverPhoto] = useState()
     const [stocks, setStocks] = useState()
-    // const [myReq, setMyReq] = useState()
-
     const coverPhotoInputEl = useRef()
     // const [] = useState()
 
@@ -70,14 +68,25 @@ function Update() {
 
     }
 
+    const [destroy, setDestroy] = useState()
+    const navigate = useNavigate();
+
     const handleDelete = async (e) => {
         try {
             e.preventDefault()
-            await axios.delete(`staff/deletebook/${bookId}`)
+            const res = await axios.delete(`staff/deletebook/${bookId}`)
+            setDestroy(res.data)
+
         } catch {
             console.log("handleDelete err")
         }
     }
+
+    useEffect(() => {
+        if (destroy) {
+            navigate('../../../booksearch/undefined/all/')
+        }
+    }, [destroy])
 
     // for Tags
     const [inputTag, setInputTag] = useState()
@@ -129,7 +138,6 @@ function Update() {
     return (
         <div>
             <div className="m-2 justify-content-center d-flex">
-
                 <form action="" className="justify-content-center d-flex col-11">
 
                     <div className="card p-2 my-2 col-12">
@@ -179,9 +187,9 @@ function Update() {
                         <div className="d-flex">
                             <div className="col-3 d-flex justify-content-end align-items-center flex-column">
                                 <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Save Changes</button>
-                                <Link to={`../../../`}>
+                                {/* <Link to={`../../../`}> */}
                                     <button type="submit" className="btn btn-danger mt-1" onClick={(e) => handleDelete(e)}>Delete This Book</button>
-                                </Link>
+                                {/* </Link> */}
                             </div>
                             <div className="col d-flex">
                                 <div className="col">

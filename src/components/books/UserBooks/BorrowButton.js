@@ -3,12 +3,11 @@ import { useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { UserAuthContext } from "../../../contexts/UserAuthContext"
 
-function BorrowButton({ id }) {
+function BorrowButton({ id , BookStocks}) {
 
     const { user } = useContext(UserAuthContext)
     const [isBorrowed, setIsBorrowed] = useState(0)
-    // console.log(user)
-
+    const [hasStock, setHasStock] = useState()
 
     useEffect(() => {
         const getBorrowedStatus = async () => {
@@ -28,6 +27,14 @@ function BorrowButton({ id }) {
 
     }, [id])
 
+    useEffect(() => {
+        const checkStock = () => {
+            setHasStock(BookStocks?.length)
+        }
+
+        checkStock()
+    }, [BookStocks])
+
 
     const handleBorrow = async (e) => {
         try {
@@ -42,19 +49,27 @@ function BorrowButton({ id }) {
 
     }
 
-
+    console.log(hasStock)
     return (
         <div>
             {isBorrowed ? (
                 <button className="btn w-100 btn-secondary">
                     You already have this book
                 </button>
-            ) : user ? (
+            ) : hasStock ? (
+
                 <form onSubmit={handleBorrow}>
                     <button type="submit" className="btn w-100 btn-primary" onSubmit={handleBorrow}>
                         Borrow Now
                     </button>
                 </form>
+                
+            ) : user ? (
+                
+                <button className="btn w-100 btn-secondary">
+                    This book is out of stock
+                </button>
+                
             ) : (
                 <Link to={''} >
                     <button className="btn w-100 btn-danger">
