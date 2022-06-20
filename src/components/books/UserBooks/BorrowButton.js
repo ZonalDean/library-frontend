@@ -13,7 +13,6 @@ function BorrowButton({ id , BookStocks}) {
         const getBorrowedStatus = async () => {
             try {
                 if (user) {
-
                     const res = await axios.get(`user/isborrow/${id}`)
                     const checker = res.data.isBorrowed
                     setIsBorrowed(checker.length)
@@ -49,7 +48,7 @@ function BorrowButton({ id , BookStocks}) {
 
     }
 
-    console.log(hasStock)
+    // console.log(hasStock)
     return (
         <div>
             {isBorrowed ? (

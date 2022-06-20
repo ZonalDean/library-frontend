@@ -1,10 +1,33 @@
-import { useEffect, useState } from "react"
+import axios from "axios"
+import { useContext, useEffect, useState } from "react"
+import { UserAuthContext } from "../../contexts/UserAuthContext"
 
-function BookCard({coverPhoto, BookStocks}) {
+function BookCard({coverPhoto, BookStocks, id}) {
     
+    const { user } = useContext(UserAuthContext)
     const [hasStock, setHasStock] = useState()
+    const [isBorrowed, setIsBorrowed] = useState()
+
+    
     useEffect(() => {
-        
+        const getBorrowedStatus = async () => {
+            try {
+                if (user) {
+                    const res = await axios.get(`user/isborrow/${id}`)
+                    const checker = res.data.isBorrowed
+                    setIsBorrowed(checker.length)
+                    console.log(id)
+                    // console.log(res.data)
+                }
+            } catch (err) {
+                console.log('borrowStatus error')
+            }
+        }
+
+        getBorrowedStatus()
+    }, [])
+    
+    useEffect(() => {
         const checkStatus = () => {
             setHasStock(BookStocks.length)
             // console.log(BookStocks)
@@ -12,8 +35,8 @@ function BookCard({coverPhoto, BookStocks}) {
         
         checkStatus()
     }, [])
+    console.log(isBorrowed)
     return (
-        // <div className="">
 
         <div className="mx-4 mb-3 card shadow">
             <div className="container" style={{ height: "30vh", width: "10vw" }} >
@@ -21,7 +44,9 @@ function BookCard({coverPhoto, BookStocks}) {
                     <div
                         className="mt-2"
                         style={{ backgroundImage: `url(${coverPhoto})`, height: "20vh", backgroundSize: 'contain', backgroundRepeat: "no-repeat", backgroundPosition: "center center" }} />
-                    { hasStock ? (
+                    { isBorrowed ? (
+                        <button className="btn btn-secondary my-3" >Reserved</button>
+                    ) : hasStock ? (
                         <button className="btn btn-primary my-3" >Available</button>
                     ) : (
                         <button className="btn btn-secondary my-3">Out of Stock</button>

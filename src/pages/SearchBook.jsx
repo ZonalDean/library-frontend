@@ -65,7 +65,7 @@ function SearchBooks() {
         }
     }
 
-    console.log(modalData)
+    // console.log(modalData)
 
     return (
         <div className="d-flex justify-content-left flex-wrap mybookdisplay m-5">
