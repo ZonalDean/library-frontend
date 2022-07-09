@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useRef, useState } from "react"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom"
+
 
 function Update() {
     const location = useLocation()
@@ -60,8 +61,9 @@ function Update() {
             formdata.append('authorName', authorName)
             formdata.append('name', name)
             formdata.append('description', description)
-            const res = await axios.patch(`staff/updatebook/${bookId}`, formdata)
-            console.log(res)
+            navigate(`../../../booksearch/undefined/all/`)
+            await axios.patch(`staff/updatebook/${bookId}`, formdata)
+            // console.log(res)
         } catch (err) {
             console.log("handleSubmit error")
         }
@@ -186,7 +188,7 @@ function Update() {
                         </div>
                         <div className="d-flex">
                             <div className="col-3 d-flex justify-content-end align-items-center flex-column">
-                                <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Save Changes</button>
+                                <button className="btn btn-primary" onClick={handleSubmit}>Save Changes</button>
                                 {/* <Link to={`../../../`}> */}
                                     <button type="submit" className="btn btn-danger mt-1" onClick={(e) => handleDelete(e)}>Delete This Book</button>
                                 {/* </Link> */}

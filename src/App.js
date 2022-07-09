@@ -34,7 +34,7 @@ function App() {
   }, [user])
 
   // console.log(roleUser)
-  // console.log(roleStaff)
+  console.log(roleStaff)
   // console.log(user)
   return (
     <Routes>
@@ -47,7 +47,7 @@ function App() {
             <Route path="mybooks" element={<MyBooks />} />
             <Route path="booksearch/:search/:tag" element={<SearchBooks />} />
           </Route>
-          <Route path="*" element={<Navigate to="/" />} />
+          {/* <Route path="*" element={<Navigate to="/" />} /> */}
         </>
       )
         : roleStaff ? (
