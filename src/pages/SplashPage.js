@@ -7,7 +7,7 @@ function SplashPage() {
         <div>
             {/* <BookDisplayNew name="Sci-Fi"/> */}
             <BookDisplay name="Sci-Fi"/>
-            <BookDisplay name="Politics"/>
+            <BookDisplay name="Dystopian"/>
         </div>
     )
 }

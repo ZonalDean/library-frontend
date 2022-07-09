@@ -9,7 +9,7 @@ function SearchBooks() {
 
     const [books, setBooks] = useState()
     const [search, setSearch] = useState()
-    const [tag, setTag] = useState('all')
+    const [tag, setTag] = useState()
 
     const location = useLocation()
 
@@ -22,7 +22,7 @@ function SearchBooks() {
         const parsedTag = splitTag.join(' ')
         setSearch(pathArr[2])
         setTag(parsedTag)
-    })
+    }, [location])
 
     // for getting all the books displayed
     useEffect(() => {
@@ -30,7 +30,10 @@ function SearchBooks() {
             try {
                 // console.log(tag)
                 const res = await axios.get(`public/booksearch/${search}/${tag}`)
-                setBooks(res.data.foundBooks)
+                // console.log(res.data.result)
+                const result = Object.values(res.data.result)
+                console.log(result)
+                setBooks(result)
             } catch (err) {
                 console.log('fetchBooks error')
             }
@@ -38,7 +41,14 @@ function SearchBooks() {
         }
 
         fetchBooks()
-    }, [search, tag])
+    }, [search, tag, location])
+
+    useEffect(() => {
+
+    }, [search])
+    
+    // console.log(search)
+    // console.log(tag)
 
     // handles modal
     const modalEl = useRef();
@@ -70,8 +80,8 @@ function SearchBooks() {
     return (
         <div className="d-flex justify-content-left flex-wrap mybookdisplay m-5">
             {books ? (
-                books.map(book => (
-                    <div className="mybook"
+                books?.map(book => (
+                    <div className="mybook" key={book.id}
                         onClick={() => {
                             handleClickModal();
                             setModalData(book);
@@ -79,7 +89,7 @@ function SearchBooks() {
                         }}
                     >
 
-                        <BookCard key={book.id} {...book} />
+                        <BookCard {...book} />
                     </div>
                 ))
             ) : (

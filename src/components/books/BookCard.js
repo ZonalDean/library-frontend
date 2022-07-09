@@ -16,8 +16,6 @@ function BookCard({coverPhoto, BookStocks, id}) {
                     const res = await axios.get(`user/isborrow/${id}`)
                     const checker = res.data.isBorrowed
                     setIsBorrowed(checker.length)
-                    console.log(id)
-                    // console.log(res.data)
                 }
             } catch (err) {
                 console.log('borrowStatus error')
@@ -25,17 +23,18 @@ function BookCard({coverPhoto, BookStocks, id}) {
         }
 
         getBorrowedStatus()
-    }, [])
+    }, [BookStocks])
     
     useEffect(() => {
         const checkStatus = () => {
-            setHasStock(BookStocks.length)
-            // console.log(BookStocks)
+            if (BookStocks) {
+                setHasStock(BookStocks.length)
+            }
         }
         
         checkStatus()
-    }, [])
-    console.log(isBorrowed)
+    }, [BookStocks])
+    // console.log(isBorrowed)
     return (
 
         <div className="mx-4 mb-3 card shadow">
