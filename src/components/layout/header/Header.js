@@ -3,12 +3,14 @@ import UserRegisterModal from "../auth/UserRegisterModal";
 import Sidebar from "./sidebar";
 import { useContext, useEffect, useState } from "react";
 import { UserAuthContext } from "../../../contexts/UserAuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+
 
 function Header(props) {
     // const [open, setOpen] = useState(false)
     const { user } = useContext(UserAuthContext)
+    const navigate = useNavigate
 
     const [search, setSearch] = useState()
     const [tag, setTag] = useState('all')
@@ -62,7 +64,7 @@ function Header(props) {
                                                     type="text"
                                                     className="form-control"
                                                     placeholder="Search for books"
-                                                    value={search}
+                                                    value={search ? search : undefined}
                                                     onChange={e => setSearch(e.target.value)}
                                                 />
                                             </div>

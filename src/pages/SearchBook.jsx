@@ -21,6 +21,9 @@ function SearchBooks() {
         const splitTag = rawTag.split('%20')
         const parsedTag = splitTag.join(' ')
         setSearch(pathArr[2])
+        if (search === '') {
+            setSearch('undefined')
+        }
         setTag(parsedTag)
     }, [location])
 
